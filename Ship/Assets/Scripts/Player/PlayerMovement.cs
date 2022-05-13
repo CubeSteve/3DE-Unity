@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
         Rotating(turn);
         MovementManager(v, sneak);
+        print(v);
     }
 
     void Update()
@@ -47,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
         if (vertical > 0)
         {
             anim.SetFloat(hash.speedFloat, animationSpeed, speedDampTime, Time.deltaTime);
+        }
+        else if (vertical < 0)
+        {
+            anim.SetFloat(hash.speedFloat, -animationSpeed, speedDampTime, Time.deltaTime);
         }
         else
         {
