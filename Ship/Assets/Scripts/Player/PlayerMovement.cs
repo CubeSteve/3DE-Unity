@@ -11,6 +11,13 @@ public class PlayerMovement : MonoBehaviour
 
     public float animationSpeed = 1.5f;
 
+    //Ship entery
+    public GameObject shipCollision;
+    public GameObject player;
+    public GameObject ship;
+    public GameObject cam;
+    public GameObject enterText;
+
     private Animator anim;
     private HashIDs hash;
 
@@ -28,15 +35,26 @@ public class PlayerMovement : MonoBehaviour
         bool sneak = Input.GetButton("Sneak");
         float turn = Input.GetAxis("Turn");
 
-        Rotating(turn);
-        MovementManager(v, sneak);
+        if (player.activeInHierarchy)
+        {
+            Rotating(turn);
+            MovementManager(v, sneak);
+        }
     }
 
     void Update()
     {
         bool shout = Input.GetButtonDown("Attract");
-        anim.SetBool(hash.shoutingBool, shout);
-        AudioManagement(shout);
+        bool enter = Input.GetButtonDown("Enter Ship");
+
+        if (player.activeInHierarchy)
+        {
+            anim.SetBool(hash.shoutingBool, shout);
+            AudioManagement(shout);
+
+            //Enter ship
+            EnterManager(enter);
+        }
     }
 
     void MovementManager(float vertical, bool sneaking)
@@ -94,6 +112,16 @@ public class PlayerMovement : MonoBehaviour
         if(shout)
         {
             AudioSource.PlayClipAtPoint(shoutingClip, transform.position);
+        }
+    }
+
+    void EnterManager(bool enter)
+    {
+        if (enter && shipCollision.GetComponent<EnterShip>().inBox)
+        {
+            cam.GetComponent<FollowCamera>().target = ship;
+            enterText.SetActive(false);
+            player.SetActive(false);
         }
     }
 }

@@ -6,6 +6,7 @@ public class FollowCamera : MonoBehaviour
 {
     public GameObject target;
     Vector3 offset;
+    public GameObject player;
 
     void Start()
     {
@@ -16,7 +17,17 @@ public class FollowCamera : MonoBehaviour
     {
         float desiredAngle = target.transform.eulerAngles.y;
         Quaternion rotation = Quaternion.Euler(0, desiredAngle, 0);
-        transform.position = target.transform.position + (rotation * offset);
+
+        if (player.activeInHierarchy)
+        {
+            transform.position = target.transform.position + (rotation * offset);
+        }
+        else
+        {
+            //Ship
+            transform.position = target.transform.position + (rotation * offset * 2);
+        }
+
         transform.LookAt(target.transform);
     }
 }
