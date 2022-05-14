@@ -13,21 +13,20 @@ public class ShipMovement : MonoBehaviour
         {
             float v = Input.GetAxis("Ship Vertical");
             float t = Input.GetAxis("Ship Turn");
-            float up = Input.GetAxis("Ship Up");
+            float u = Input.GetAxis("Ship Up");
+
+            CollisionDetecter();
 
             Rotating(t);
-            MovementManager(v);
+            MovementManager(v, u);
         }
     }
 
-    void MovementManager(float vertical)
+    void MovementManager(float vertical, float up)
     {
-        //Access rigidbody
-        Rigidbody ourBody = this.GetComponent<Rigidbody>();
+        transform.position += transform.forward * Time.deltaTime * vertical * 10;
 
-        ourBody.MovePosition(transform.position + new Vector3(0, 0, vertical));
-
-        // transform.position += transform.forward * Time.deltaTime * movementSpeed;
+        transform.position += transform.up * Time.deltaTime * up * 2;
     }
 
     void Rotating(float turn)
@@ -44,6 +43,18 @@ public class ShipMovement : MonoBehaviour
 
             //Apply to the rigidbody
             ourBody.MoveRotation(ourBody.rotation * deltaRotation);
+        }
+    }
+
+    void CollisionDetecter()
+    {
+        //Collision detection
+        if (transform.position.y < 0 && transform.position.y > -3 &&
+            transform.position.x < 35 && transform.position.x > -35 &&
+            transform.position.z < 35 && transform.position.x > -35)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            return;
         }
     }
 }
