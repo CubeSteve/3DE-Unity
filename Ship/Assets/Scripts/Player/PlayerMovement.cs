@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject cam;
     public GameObject enterText;
 
+    public GameObject claw;
+
     private Animator anim;
     private HashIDs hash;
 
@@ -119,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (enter && shipCollision.GetComponent<EnterShip>().inBox)
         {
-            cam.GetComponent<FollowCamera>().target = ship;
+            cam.GetComponent<FollowCamera>().target = claw;
             enterText.SetActive(false);
             player.SetActive(false);
         }
