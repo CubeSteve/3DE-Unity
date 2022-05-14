@@ -30,7 +30,6 @@ public class PlayerMovement : MonoBehaviour
 
         Rotating(turn);
         MovementManager(v, sneak);
-        print(v);
     }
 
     void Update()
